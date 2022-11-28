@@ -1,0 +1,8 @@
+---
+- name: "Fcitx pinyin"
+  pacman:
+    name: 
+      - fcitx
+      - fcitx-sunpinyin
+    state: present
+  become: true

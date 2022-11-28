@@ -1,0 +1,31 @@
+---
+  - name: "install nodejs"
+    pacman:
+      name: 
+        - nodejs
+        - npm 
+      state: present
+    become: true
+
+  - name: "Check if rustup is installed"
+    stat:
+      path: "{{ lookup('env', 'HOME') + '/.cargo/bin' }}"
+    register: var_rustup_exist
+
+  - name: "Rust toolchain"
+    get_url:
+      url: "https://sh.rustup.rs"
+      dest: "/tmp/rustup.sh"
+    when: not var_rustup_exist.stat.exists
+
+  - name: "Change Rustup script ownership"
+    file:
+      path: "/tmp/rustup.sh"
+      mode: "a+x"
+    when: not var_rustup_exist.stat.exists
+
+  - name: "install rustup"
+    script:
+      cmd: "/tmp/rustup.sh -y"
+    when: not var_rustup_exist.stat.exists
+

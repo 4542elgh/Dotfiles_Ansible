@@ -1,0 +1,30 @@
+---
+- name: "install stow"
+  yay:
+    name: stow
+    state: present
+
+- name: "Check if Dotfiles is installed"
+  stat:
+    path: "{{ lookup('env', 'HOME') + '/Dotfiles' }}"
+  register: var_dotfiles_exist
+
+- name: "Clone dotfile"
+  git:
+    repo: "https://github.com/4542elgh/Dotfiles"
+    dest: "{{ lookup('env', 'HOME') + '/Dotfiles' }}"
+    version: "master"
+    update: "no"
+  when: not var_dotfiles_exist.stat.exists
+
+- name: "Check if stow is already applied, I use bat config since its rare people put config into this "
+  stat:
+    path: "{{ lookup('env', 'HOME') + '/.config/bat' }}"
+  register: var_stow_exist
+
+- name: "Stowing config folder"
+  shell: 
+    cmd: "stow config"
+    chdir: "{{ lookup('env', 'HOME') + '/Dotfiles' }}"
+  when: not var_stow_exist.stat.exists
+

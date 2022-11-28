@@ -1,0 +1,15 @@
+---
+- name: "Chinese simplified and traditional font"
+  pacman:
+    name: 
+      - adobe-source-han-sans-cn-fonts 
+      - adobe-source-han-sans-tw-fonts
+    state: present
+  become: true
+
+- name: "install nerdfont and emoji font"
+  yay:
+    name: 
+      - nerd-fonts-dejavu-complete
+      - ttf-joypixels
+    state: present

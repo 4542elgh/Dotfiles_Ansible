@@ -1,0 +1,9 @@
+---
+- name: "install discord, and better discord installer"
+  yay:
+    name:
+      - discord
+      # This needs to be done under GUI, terminal will throw error
+      # command: betterdiscord-installer --no-sandbox
+      - betterdiscord-installer
+    state: present

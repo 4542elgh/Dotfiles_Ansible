@@ -1,0 +1,58 @@
+---
+  - name: "install zsh"
+    pacman:
+      name: zsh
+      state: present
+    become: true
+
+  - name: "Check if Antibody is installed"
+    stat:
+      path: "/usr/bin/antibody"
+    register: var_antibody_exist
+
+  - name: "Get ZSH Antibody install script"
+    get_url:
+      url: "https://git.io/antibody"
+      dest: "/tmp/antibody"
+    when: not var_antibody_exist.stat.exists
+
+  - name: "Change antibody install script ownership"
+    file:
+      path: "/tmp/antibody"
+      mode: "a+x"
+    when: not var_antibody_exist.stat.exists
+
+  - name: "Get latest antibody binary"
+    shell: "BINDIR=/tmp /tmp/antibody"
+    when: not var_antibody_exist.stat.exists
+
+  - name: "Move antibody binary to /usr/bin"
+    copy:
+      src: "/tmp/antibody"
+      dest: "/usr/bin/antibody"
+    become: true
+    when: not var_antibody_exist.stat.exists
+
+  - name: "Change antibody binary script ownership"
+    file:
+      path: "/usr/bin/antibody"
+      mode: "a+x"
+    become: true
+    when: not var_antibody_exist.stat.exists
+
+  - name: "Check if Antibody plugins list exist, this will also tell if stow worked correctly"
+    stat:
+      path: "{{ lookup('env', 'HOME') + '/.config/zsh/.zsh_plugins.txt' }}"
+    register: var_antibody_config_exist
+
+  - name: "Antibody build plugins"
+    shell: "antibody bundle < ~/.config/zsh/.zsh_plugins.txt > ~/.config/zsh/.zsh_plugins.sh"
+    when: var_antibody_config_exist.stat.exists
+
+  - name: "install autojump, bat, macchina"
+    yay:
+      name: 
+        - macchina
+        - bat
+        - autojump
+      state: present

@@ -1,0 +1,57 @@
+---
+  - name: "install i3wm"
+    pacman:
+      name: 
+        - i3-gaps
+      state: present
+    become: true
+
+  - name: "install i3lock and idle lock config"
+    yay:
+      name:
+        - i3lock-color
+        - xidlehook
+      state: present
+
+  # You might need to disable your current compositor if you are using a derived version of arch, (use vanilla i3 get around this issue)
+  # You will also need to run picom with sudo for compositor to work
+  - name: "install picom"
+    pacman:
+      name: picom
+      state: present
+    become: true
+
+  - name: "install rofi"
+    yay:
+      name: rofi
+      state: present
+
+  - name: "install clipster"
+    yay:
+      name: clipster
+      state: present
+
+  - name: "Check if roficlip is installed"
+    stat:
+      path: "/usr/bin/roficlip"
+    register: var_roficlip_exist
+
+  - name: "Get roficlip script"
+    get_url:
+      url: "https://github.com/4542elgh/roficlip/blob/master/roficlip"
+      dest: "/tmp/roficlip"
+    when: not var_roficlip_exist.stat.exists
+
+  - name: "Move roficlip to /usr/bin"
+    copy:
+      src: "/tmp/roficlip"
+      dest: "/usr/bin/roficlip"
+    become: true
+    when: not var_roficlip_exist.stat.exists
+
+  - name: "Change roficlip script ownership"
+    file:
+      path: "/usr/bin/roficlip"
+      mode: "a+x"
+    become: true
+    when: not var_roficlip_exist.stat.exists

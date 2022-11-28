@@ -1,0 +1,14 @@
+---
+- name: "Ranger image and pdf viewer"
+  pacman:
+    name:
+      - w3m
+      - zathura 
+      - zathura-pdf-poppler
+    state: present
+  become: true
+
+- name: "install autojump, bat, macchina"
+  yay:
+    name: ranger
+    state: present

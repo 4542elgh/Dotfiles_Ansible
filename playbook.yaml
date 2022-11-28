@@ -1,0 +1,28 @@
+---
+  - name: "My first play"
+    hosts: localhost
+    # To future self, all roles are stored under roles/role_name/tasks/main.yaml
+    roles:
+      - base_dependencies
+      - yay
+      - fonts 
+      - programming_languages
+      - dotfiles
+      - zsh_antibody
+      - i3_rofi
+      - ranger
+      - pinyin
+      - discord
+    vars_files:
+      - ./vault/sudo_password.yaml
+    vars:
+      ansible_become_method: su 
+      ansible_become_user: root
+      ansible_become_pass: "{{ sudo_password }}"
+
+    tasks:
+    - name: "Neovim, init.lua can bootstrap itself"
+      pacman:
+        name: neovim
+        state: present
+      become: true

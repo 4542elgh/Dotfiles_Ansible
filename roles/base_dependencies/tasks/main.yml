@@ -1,0 +1,19 @@
+---
+- name: "Install base-devel, git, gawk, xclip, ag"
+  pacman:
+    name: 
+      - base-devel
+      - git
+      - gawk
+      - xclip
+      - the_silver_searcher
+      - feh
+    state: present
+  become: true
+
+- name: "install fzf, and rg"
+  yay:
+    name: 
+      - fzf
+      - ripgrep
+    state: present

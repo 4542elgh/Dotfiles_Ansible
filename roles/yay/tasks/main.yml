@@ -1,0 +1,20 @@
+---
+  - name: "Check if yay is installed"
+    stat:
+      path: "/usr/bin/yay"
+    register: var_yay_exist
+
+  - name: "clone yay from github"
+    git:
+      repo: "https://aur.archlinux.org/yay.git"
+      dest: "/tmp/yay"
+      version: "master"
+      update: "yes"
+    when: not var_yay_exist.stat.exists
+
+  - name: "install yay"
+    command: "makepkg --noconfirm -si"
+    args:
+      chdir: "/tmp/yay"
+      creates: "/usr/bin/yay"
+    when: not var_yay_exist.stat.exists
