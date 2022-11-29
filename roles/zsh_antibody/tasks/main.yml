@@ -49,10 +49,16 @@
     shell: "antibody bundle < ~/.config/zsh/.zsh_plugins.txt > ~/.config/zsh/.zsh_plugins.sh"
     when: var_antibody_config_exist.stat.exists
 
-  - name: "install autojump, bat, macchina"
+  - name: "install autojump, bat, macchina, tmux"
     yay:
       name: 
         - macchina
         - bat
         - autojump
+        - tmux
       state: present
+  - name: "Neovim, init.lua can bootstrap itself"
+    pacman:
+      name: neovim
+      state: present
+    become: true

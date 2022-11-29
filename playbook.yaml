@@ -19,10 +19,3 @@
       ansible_become_method: su 
       ansible_become_user: root
       ansible_become_pass: "{{ sudo_password }}"
-
-    tasks:
-    - name: "Neovim, init.lua can bootstrap itself"
-      pacman:
-        name: neovim
-        state: present
-      become: true
