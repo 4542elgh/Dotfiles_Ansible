@@ -3,12 +3,11 @@
   pacman:
     name:
       - w3m
-      - zathura 
-      - zathura-pdf-poppler
+      - mupdf
     state: present
   become: true
 
-- name: "install autojump, bat, macchina"
+- name: "install ranger"
   yay:
     name: ranger
     state: present

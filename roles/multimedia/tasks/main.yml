@@ -1,0 +1,6 @@
+---
+- name: "install mpv"
+  yay:
+    name: mpv
+    state: present
+

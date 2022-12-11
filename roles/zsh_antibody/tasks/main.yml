@@ -63,10 +63,14 @@
         - fzf
         - ripgrep
         - lsd
+        - mupdf
+        - gotop
       state: present
 
   - name: "Neovim, init.lua can bootstrap itself"
     pacman:
-      name: neovim
+      name: 
+        - neovim
+        - imagemagick
       state: present
     become: true

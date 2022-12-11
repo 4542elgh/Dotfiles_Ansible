@@ -1,9 +1,12 @@
 ---
-- name: "Chinese simplified and traditional font"
+- name: "Chinese simplified, traditional, japanese, korean and unicode font"
   pacman:
     name: 
       - adobe-source-han-sans-cn-fonts 
       - adobe-source-han-sans-tw-fonts
+      - noto-fonts
+      - noto-fonts-cjk
+      - ttf-droid
     state: present
   become: true
 
@@ -11,5 +14,6 @@
   yay:
     name: 
       - nerd-fonts-dejavu-complete
+      - noto-fonts-emoji
       - ttf-joypixels
     state: present
