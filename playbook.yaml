@@ -13,6 +13,7 @@
       - ranger
       - pinyin
       - discord
+      - browser
     vars_files:
       - ./vault/sudo_password.yaml
     vars:

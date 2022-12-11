@@ -8,12 +8,24 @@
       - xclip
       - the_silver_searcher
       - feh
+      - openssh
+      - cmake
+      - gcc
+      - fontconfig
+      - man-db
+      - man-pages
+      - xorg-server
+      - xorg-xinit
+      - alacritty
+      - wget
     state: present
   become: true
+- name: "Generate man pages"
+  shell: "mandb"
+- name: "Make sure sshd is running"
+  systemd:
+    state: started
+    enabled: true
+    name: sshd
+  become: true
 
-- name: "install fzf, and rg"
-  yay:
-    name: 
-      - fzf
-      - ripgrep
-    state: present
